@@ -10,10 +10,10 @@ import javax.swing.JFrame;
 
 public class Main {
 	
-	int previousY, previousX, currentX, currentY;
-	Graphics g;
+	public int previousY, previousX, currentX, currentY;
+	public Graphics g;
 	
-	private JFrame frame;
+	public JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -43,9 +43,32 @@ public class Main {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	
+	public void initialize() {
+		
+		Disks Disk1 = new Disks(620, 130, 90, 120, 1);
+		Disks Disk2 = new Disks(630, 240, 90, 140, 2);
+		Disks Disk3 = new Disks(640, 330, 90, 160, 3);
+		Disks Disk4 = new Disks(660, 420, 90, 180, 4);
+		Disks Disk5 = new Disks(650, 510, 90, 200, 5);
+		
+		Disks[] Stack1 = new Disks[5];
+		Disks[] Stack2 = new Disks[5];
+		Disks[] Stack3 = new Disks[5];
+		
+		for (int i=0; i<5; i++){
+			Stack2[i] = null;
+			Stack3[i] = null;	
+		}
+		
+		Stack1[0] = Disk1;
+		Stack1[1] = Disk2;
+		Stack1[2] = Disk3;
+		Stack1[3] = Disk4;
+		Stack1[4] = Disk5;
+		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 900, 600);
+		frame.setBounds(100, 100, 917, 639);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -82,7 +105,7 @@ public class Main {
 			}
 		});
 
-		canvas.setBounds(0, 0, 884, 561);
+		canvas.setBounds(0, 0, 900, 600);
 		frame.getContentPane().add(canvas);
 	}
 	
