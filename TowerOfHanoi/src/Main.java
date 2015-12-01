@@ -24,6 +24,8 @@ public class Main {
 				try {
 					Main window = new Main();
 					window.frame.setVisible(true);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -74,32 +76,22 @@ public class Main {
 		frame.getContentPane().setLayout(null);
 		
 		Canvas canvas = new Canvas();
+		
 		canvas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				for (int i=0; i<5; i++){
-					g.setColor(Color.BLUE);
-					g.fillRoundRect(Stack1[i].x, Stack1[i].y, Stack1[i].width, Stack1[i].height, 20, 20);
-					g.setColor(Color.BLACK);
-					g.drawRoundRect(Stack1[i].x, Stack1[i].y, Stack1[i].width, Stack1[i].height, 20, 20);
-				}
+				paintOnCanvas(canvas, Stack1);
 			}
 		});
 
 		canvas.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				g = canvas.getGraphics();
 				//g.drawRect(e.getX()-25, e.getY()-25, 50, 50);
 				Stack1[0].x = e.getX();
 				Stack1[0].y = e.getY();
-				
-				for (int i=0; i<5; i++){
-					g.setColor(Color.BLUE);
-					g.fillRoundRect(Stack1[i].x, Stack1[i].y, Stack1[i].width, Stack1[i].height, 20, 20);
-					g.setColor(Color.BLACK);
-					g.drawRoundRect(Stack1[i].x, Stack1[i].y, Stack1[i].width, Stack1[i].height, 20, 20);
-				}
+
+				paintOnCanvas(canvas, Stack1);
 			}
 			@Override
 			public void mouseMoved(MouseEvent e) {
@@ -111,5 +103,16 @@ public class Main {
 
 		canvas.setBounds(0, 0, 1200, 600);
 		frame.getContentPane().add(canvas);
+		//paintOnCanvas(canvas, Stack1);
 	}	
+	
+	public void paintOnCanvas(Canvas pCanvas, Disks[] pDisks){
+		for (int i=0; i<5; i++){
+			g = pCanvas.getGraphics();
+			g.setColor(Color.BLUE);
+			g.fillRoundRect(pDisks[i].x, pDisks[i].y, pDisks[i].width, pDisks[i].height, 20, 20);
+			g.setColor(Color.BLACK);
+			g.drawRoundRect(pDisks[i].x, pDisks[i].y, pDisks[i].width, pDisks[i].height, 20, 20);
+		}
+	}
 }
