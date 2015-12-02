@@ -7,8 +7,6 @@ import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JFrame;
 
-import java.awt.event.MouseAdapter;
-
 public class Main {
 	
 	public int previousY, previousX, currentX, currentY;
@@ -76,39 +74,36 @@ public class Main {
 		frame.getContentPane().setLayout(null);
 		
 		Canvas canvas = new Canvas();
-		
-		canvas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				paintOnCanvas(canvas, Stack1);
-			}
-		});
 
 		canvas.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				//g.drawRect(e.getX()-25, e.getY()-25, 50, 50);
-				Stack1[0].x = e.getX();
-				Stack1[0].y = e.getY();
-
+				Stack1[0].x = e.getX(); 
+				Stack1[0].y = e.getY(); 
 				paintOnCanvas(canvas, Stack1);
-			}
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				//if mouse pressed{
-				//canvas.repaint();
-				//}
 			}
 		});
 
 		canvas.setBounds(0, 0, 1200, 600);
+		
 		frame.getContentPane().add(canvas);
+		
+		//paintOnCanvas(canvas, Stack1);
 	}	
 	
 	public void paintOnCanvas(Canvas pCanvas, Disks[] pDisks){
+		g = pCanvas.getGraphics();
+		
+		g.setColor(Color.lightGray);
+		g.fillRect(0, 0, 1200, 900);
+		
+		g.setColor(Color.darkGray);
+		g.fillRect(190, 100, 20, 500);
+		g.fillRect(590, 100, 20, 500);
+		g.fillRect(990, 100, 20, 500);
+		
 		for (int i=0; i<5; i++){
-			g = pCanvas.getGraphics();
-			g.setColor(Color.BLUE);
+			g.setColor(Color.red);
 			g.fillRoundRect(pDisks[i].x, pDisks[i].y, pDisks[i].width, pDisks[i].height, 20, 20);
 			g.setColor(Color.BLACK);
 			g.drawRoundRect(pDisks[i].x, pDisks[i].y, pDisks[i].width, pDisks[i].height, 20, 20);
