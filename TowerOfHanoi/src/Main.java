@@ -4,20 +4,21 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import javax.swing.JFrame;
-import java.awt.event.MouseAdapter;
 
+import javax.swing.JFrame;
+
+import java.awt.event.MouseAdapter;
 
 public class Main {
 	
 	public int previousY, previousX, currentX, currentY;
 	public Graphics g;
-	
 	public JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,7 +49,6 @@ public class Main {
 	 */
 	
 	public void initialize() {
-		
 		Disks Disk1 = new Disks(930, 150, 90, 140, 1);
 		Disks Disk2 = new Disks(910, 240, 90, 180, 2);
 		Disks Disk3 = new Disks(890, 330, 90, 220, 3);
@@ -103,7 +103,6 @@ public class Main {
 
 		canvas.setBounds(0, 0, 1200, 600);
 		frame.getContentPane().add(canvas);
-		//paintOnCanvas(canvas, Stack1);
 	}	
 	
 	public void paintOnCanvas(Canvas pCanvas, Disks[] pDisks){
