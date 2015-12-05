@@ -1,11 +1,9 @@
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Main {
 	
@@ -69,43 +67,21 @@ public class Main {
 		Stack1[4] = Disk5;
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1216, 639);
+		frame.setBounds(100, 100, 1200, 629);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
-		JPanel panel = new JPanel();
+		MyJPanel panel = new MyJPanel();
 		panel.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent arg0) {
 				Stack1[0].x = arg0.getX(); 
 				Stack1[0].y = arg0.getY(); 
-				paintOnCanvas(panel, Stack1);
+				//paintOnCanvas(panel, Stack1);
 			}
 		});
 		panel.setBounds(0, 0, 1200, 600);
 		frame.getContentPane().add(panel);
-	}
-	
-	public void paintOnCanvas(JPanel pJPanel, Disks[] pDisks){
-		g = pJPanel.getGraphics();
-		
-		g.setColor(Color.lightGray);
-		g.fillRect(0, 0, 1200, 900);
-		
-		g.setColor(Color.darkGray);
-		g.fillRect(190, 100, 20, 500);
-		g.fillRect(590, 100, 20, 500);
-		g.fillRect(990, 100, 20, 500);
-		
-		for (int i=0; i<5; i++){
-			g.setColor(Color.red);
-			g.fillRoundRect(pDisks[i].x, pDisks[i].y, pDisks[i].width, pDisks[i].height, 20, 20);
-			g.setColor(Color.BLACK);
-			g.drawRoundRect(pDisks[i].x, pDisks[i].y, pDisks[i].width, pDisks[i].height, 20, 20);
-		}
-	}
-	
-	public void paint(Graphics g) {
-		g.drawRect(0, 0, 10, 10);
 	}
 }
