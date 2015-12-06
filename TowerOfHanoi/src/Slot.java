@@ -1,11 +1,16 @@
 
 public class Slot {
 	Disk disk;
-	int x, y;
+	int x, y, id;
 	
-	Slot(Disk disk, int x, int y){
+	Slot(Disk disk, int x, int y, int id){
 		this.disk = disk;
 		this.x = x;
 		this.y = y;
+		this.id = id;
+	}
+	
+	void get(){
+		System.out.println(disk.value + " " + x + " " + y + " " + id);
 	}
 }
