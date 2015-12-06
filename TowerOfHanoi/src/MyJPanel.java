@@ -1,19 +1,10 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Queue;
-
 import javax.swing.JPanel;
 
-
 public class MyJPanel extends JPanel {
-	
-	
-			
 
-	
 	ArrayList<Slot> stack1 = new ArrayList<Slot>();
 	ArrayList<Slot> stack2 = new ArrayList<Slot>();
 	ArrayList<Slot> stack3 = new ArrayList<Slot>();
@@ -27,15 +18,12 @@ public class MyJPanel extends JPanel {
 	
 	public void setSlot(Slot abeyance) {
 		this.abeyance = abeyance;
-		System.out.println("test0");
-		System.out.println(abeyance.x + " " + abeyance.y + " " + abeyance.disk.width);
 	}
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	public void paintComponent(Graphics g){
-		//System.out.println("test2");
 		super.paintComponent(g);
 
 		g.setColor(Color.darkGray);

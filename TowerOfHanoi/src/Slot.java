@@ -9,8 +9,4 @@ public class Slot {
 		this.y = y;
 		this.id = id;
 	}
-	
-	void get(){
-		System.out.println(disk.value + " " + x + " " + y + " " + id);
-	}
 }

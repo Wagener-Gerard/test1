@@ -61,25 +61,25 @@ public class Main {
 		ArrayList<Slot> stack2 = new ArrayList<Slot>();
 		ArrayList<Slot> stack3 = new ArrayList<Slot>();
 		
-		Slot stack1slotl1 = new Slot(disk1, 200, 150, 1);
-		Slot stack1slotl2 = new Slot(disk2, 200, 240, 2);
-		Slot stack1slotl3 = new Slot(disk3, 200, 330, 3);
-		Slot stack1slotl4 = new Slot(disk4, 200, 420, 4);
-		Slot stack1slotl5 = new Slot(disk5, 200, 510, 5);
+		Slot stack1slotl1 = new Slot(disk1, 200, 150, 0);
+		Slot stack1slotl2 = new Slot(disk2, 200, 240, 1);
+		Slot stack1slotl3 = new Slot(disk3, 200, 330, 2);
+		Slot stack1slotl4 = new Slot(disk4, 200, 420, 3);
+		Slot stack1slotl5 = new Slot(disk5, 200, 510, 4);
 		
-		Slot stack2slotl1 = new Slot(null, 600, 150, 6);
-		Slot stack2slotl2 = new Slot(null, 600, 240, 7);
-		Slot stack2slotl3 = new Slot(null, 600, 330, 8);
-		Slot stack2slotl4 = new Slot(null, 600, 420, 9);
-		Slot stack2slotl5 = new Slot(null, 600, 510, 10);
+		Slot stack2slotl1 = new Slot(null, 600, 150, 5);
+		Slot stack2slotl2 = new Slot(null, 600, 240, 6);
+		Slot stack2slotl3 = new Slot(null, 600, 330, 7);
+		Slot stack2slotl4 = new Slot(null, 600, 420, 8);
+		Slot stack2slotl5 = new Slot(null, 600, 510, 9);
 		
-		Slot stack3slotl1 = new Slot(null, 1000, 150, 11);
-		Slot stack3slotl2 = new Slot(null, 1000, 240, 12);
-		Slot stack3slotl3 = new Slot(null, 1000, 330, 13);
-		Slot stack3slotl4 = new Slot(null, 1000, 420, 14);
-		Slot stack3slotl5 = new Slot(null, 1000, 510, 15);
+		Slot stack3slotl1 = new Slot(null, 1000, 150, 10);
+		Slot stack3slotl2 = new Slot(null, 1000, 240, 11);
+		Slot stack3slotl3 = new Slot(null, 1000, 330, 12);
+		Slot stack3slotl4 = new Slot(null, 1000, 420, 13);
+		Slot stack3slotl5 = new Slot(null, 1000, 510, 14);
 		
-		Slot abeyance = new Slot(null, 0, 0, 16);
+		Slot abeyance = new Slot(null, 0, 0, 15);
 				
 		stack1.add(stack1slotl1);
 		stack1.add(stack1slotl2);
@@ -109,28 +109,33 @@ public class Main {
 		
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseReleased(MouseEvent e) {		
-				if (abeyance.x > area1.x1 && abeyance.x < area1.x2){
-					for (int i=0; i<5; i++) {
-						if (i != 4){
-							if (stack1.get(i).disk == null){
-								if(stack1.get(i+1).disk != null){
+			public void mouseReleased(MouseEvent e) {	
+				if (abeyance.disk != null){
+					if (abeyance.x > area1.x1 && abeyance.x < area1.x2) {
+						for (int i = 0; i < 5; i++) {
+							if (i != 4) {
+								if (stack1.get(i).disk == null) {
+									if (stack1.get(i + 1).disk != null) {
+										if (stack1.get(i + 1).disk.value > abeyance.disk.value){
+											stack1.get(i).disk = abeyance.disk;
+										}
+									}
+								}
+							}
+							if (i == 4) {
+								if (stack1.get(i - 1).disk == null) {
 									stack1.get(i).disk = abeyance.disk;
 								}
 							}
-						}  
-						if (i == 4) {
-							if (stack1.get(i-1).disk == null){
-								stack1.get(i).disk = abeyance.disk;
-							}
 						}
+						abeyance.x = 0;
+						abeyance.y = 0;
+						abeyance.disk = null;
+						panel.repaint();
 					}
-					abeyance.x = 0;
-					abeyance.y = 0;
-					abeyance.disk = null;
-					panel.repaint(); 
 				}
 				
+				if (abeyance.disk != null){
 				if (abeyance.x > area2.x1 && abeyance.x < area2.x2){
 					for (int i=0; i<5; i++) {
 						if (i != 4){
@@ -151,7 +156,9 @@ public class Main {
 					abeyance.disk = null;
 					panel.repaint(); 
 				}
+				}
 				
+				if (abeyance.disk != null){
 				if (abeyance.x > area3.x1 && abeyance.x < area3.x2){
 					for (int i=0; i<5; i++) {
 						if (i != 4){
@@ -172,6 +179,7 @@ public class Main {
 					abeyance.disk = null;
 					panel.repaint(); 
 				}
+				}
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -179,44 +187,59 @@ public class Main {
 				x = e.getX();
 				y = e.getY();
 				
-				for (Slot slot : stack1) {
-					if (slot.disk != null){
-						if((slot.x-slot.disk.width<x)&&(slot.y<y)&&(slot.x+slot.disk.width>x)&&(slot.y+90>y)){
-							System.out.println(slot.disk.width);
-							abeyance.disk = slot.disk;
-							abeyance.x = x;
-							abeyance.y = y;
-							panel.setSlot(abeyance);
-							slot.disk = null;
-							panel.repaint();
+				for (int i=0; i<5; i++){
+					if (i == 4 && stack1.get(i-1).disk==null || i == 0 || stack1.get(i-1).disk == null){
+						if (stack1.get(i).disk != null) {
+							if ((stack1.get(i).x - stack1.get(i).disk.width < x)
+									&& (stack1.get(i).y < y)
+									&& (stack1.get(i).x
+											+ stack1.get(i).disk.width > x)
+									&& (stack1.get(i).y + 90 > y)) {
+								abeyance.disk = stack1.get(i).disk;
+								abeyance.x = x;
+								abeyance.y = y;
+								panel.setSlot(abeyance);
+								stack1.get(i).disk = null;
+								panel.repaint();
+							}
 						}
 					}
-				}	
-				
-				for (Slot slot : stack2) {
-					if (slot.disk != null){
-						if((slot.x-slot.disk.width<x)&&(slot.y<y)&&(slot.x+slot.disk.width>x)&&(slot.y+90>y)){
-							System.out.println(slot.disk.width);
-							abeyance.disk = slot.disk;
-							abeyance.x = x;
-							abeyance.y = y;
-							panel.setSlot(abeyance);
-							slot.disk = null;
-							panel.repaint();
+				}
+
+				for (int i=0; i<5; i++){
+					if (i == 4 && stack2.get(i-1).disk==null || i == 0 || stack2.get(i-1).disk == null){
+						if (stack2.get(i).disk != null) {
+							if ((stack2.get(i).x - stack2.get(i).disk.width < x)
+									&& (stack2.get(i).y < y)
+									&& (stack2.get(i).x
+											+ stack2.get(i).disk.width > x)
+									&& (stack2.get(i).y + 90 > y)) {
+								abeyance.disk = stack2.get(i).disk;
+								abeyance.x = x;
+								abeyance.y = y;
+								panel.setSlot(abeyance);
+								stack2.get(i).disk = null;
+								panel.repaint();
+							}
 						}
 					}
 				}
 				
-				for (Slot slot : stack3) {
-					if (slot.disk != null){
-						if((slot.x-slot.disk.width<x)&&(slot.y<y)&&(slot.x+slot.disk.width>x)&&(slot.y+90>y)){
-							System.out.println(slot.disk.width);
-							abeyance.disk = slot.disk;
-							abeyance.x = x;
-							abeyance.y = y;
-							panel.setSlot(abeyance);
-							slot.disk = null;
-							panel.repaint();
+				for (int i=0; i<5; i++){
+					if (i == 4 && stack3.get(i-1).disk==null || i == 0 || stack3.get(i-1).disk == null){
+						if (stack3.get(i).disk != null) {
+							if ((stack3.get(i).x - stack3.get(i).disk.width < x)
+									&& (stack3.get(i).y < y)
+									&& (stack3.get(i).x
+											+ stack3.get(i).disk.width > x)
+									&& (stack3.get(i).y + 90 > y)) {
+								abeyance.disk = stack3.get(i).disk;
+								abeyance.x = x;
+								abeyance.y = y;
+								panel.setSlot(abeyance);
+								stack3.get(i).disk = null;
+								panel.repaint();
+							}
 						}
 					}
 				}
@@ -228,13 +251,15 @@ public class Main {
 		panel.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent arg0) {
-				int x, y;
-				x = arg0.getX();
-				y = arg0.getY();
-				abeyance.x = x;
-				abeyance.y = y;
-				panel.setSlot(abeyance);
-				panel.repaint();
+				if (abeyance.disk != null){
+					int x, y;
+					x = arg0.getX();
+					y = arg0.getY();
+					abeyance.x = x;
+					abeyance.y = y;
+					panel.setSlot(abeyance);
+					panel.repaint();
+				}
 			}
 		});
 		panel.setBounds(0, 0, 1200, 600);
