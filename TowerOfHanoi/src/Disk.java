@@ -1,17 +1,27 @@
+import java.util.ArrayList;
 
 public class Disk {
-	int width, value, lastSlotID;
-
-	
-	Disk(int width, int value, int lastSlotID){
+	int width, lastSlotID;
+	ArrayList<Disk> lastPos;
+		
+	Disk(int width, ArrayList<Disk> lastPos) {
+		this.lastPos = lastPos;
 		this.width = width;
-		this.value = value;
-		this.lastSlotID = lastSlotID;
+	}
+		
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
 	}
 	
-	void set(int width, int value, int lastSlotID){
-		this.width = width;
-		this.value = value;
-		this.lastSlotID = lastSlotID;
+	public ArrayList<Disk> getLastPos() {
+		return lastPos;
+	}
+
+	public void setLastPos(ArrayList<Disk> lastPos) {
+		this.lastPos = lastPos;
 	}
 }

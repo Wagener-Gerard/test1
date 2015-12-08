@@ -5,26 +5,23 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
+
 import java.awt.event.MouseAdapter;
 
 public class Main {
 	
+	public Disk hoveringDisk;
 	public Graphics g;
-
 	public JFrame frame;
-	
-	/**
-	 * Launch the application.
-	 */
+
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Main window = new Main();
-					window.frame.setVisible(true);
-					
-					
+					window.frame.setVisible(true);					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -32,72 +29,18 @@ public class Main {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 * @return 
-	 */
-
 	public Main(){
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @return 
-	 */
-	
 	public void initialize() {		
-		Area area1 = new Area(0, 400);
-		Area area2 = new Area(400, 800);
-		Area area3 = new Area(800, 1200);
+		ArrayList<Disk> stack1 = new ArrayList<Disk>();
+		ArrayList<Disk> stack2 = new ArrayList<Disk>();
+		ArrayList<Disk> stack3 = new ArrayList<Disk>();
 		
-		Disk disk1 = new Disk(70, 1, 1);
-		Disk disk2 = new Disk(90, 2, 2);
-		Disk disk3 = new Disk(110, 3, 3);
-		Disk disk4 = new Disk(130, 4, 4);
-		Disk disk5 = new Disk(150, 5, 5);
-			
-		ArrayList<Slot> stack1 = new ArrayList<Slot>();
-		ArrayList<Slot> stack2 = new ArrayList<Slot>();
-		ArrayList<Slot> stack3 = new ArrayList<Slot>();
-		
-		Slot stack1slotl1 = new Slot(disk1, 200, 150, 0);
-		Slot stack1slotl2 = new Slot(disk2, 200, 240, 1);
-		Slot stack1slotl3 = new Slot(disk3, 200, 330, 2);
-		Slot stack1slotl4 = new Slot(disk4, 200, 420, 3);
-		Slot stack1slotl5 = new Slot(disk5, 200, 510, 4);
-		
-		Slot stack2slotl1 = new Slot(null, 600, 150, 5);
-		Slot stack2slotl2 = new Slot(null, 600, 240, 6);
-		Slot stack2slotl3 = new Slot(null, 600, 330, 7);
-		Slot stack2slotl4 = new Slot(null, 600, 420, 8);
-		Slot stack2slotl5 = new Slot(null, 600, 510, 9);
-		
-		Slot stack3slotl1 = new Slot(null, 1000, 150, 10);
-		Slot stack3slotl2 = new Slot(null, 1000, 240, 11);
-		Slot stack3slotl3 = new Slot(null, 1000, 330, 12);
-		Slot stack3slotl4 = new Slot(null, 1000, 420, 13);
-		Slot stack3slotl5 = new Slot(null, 1000, 510, 14);
-		
-		Slot abeyance = new Slot(null, 0, 0, 15);
-				
-		stack1.add(stack1slotl1);
-		stack1.add(stack1slotl2);
-		stack1.add(stack1slotl3);
-		stack1.add(stack1slotl4);
-		stack1.add(stack1slotl5);
-		
-		stack2.add(stack2slotl1);
-		stack2.add(stack2slotl2);
-		stack2.add(stack2slotl3);
-		stack2.add(stack2slotl4);
-		stack2.add(stack2slotl5);
-		
-		stack3.add(stack3slotl1);
-		stack3.add(stack3slotl2);
-		stack3.add(stack3slotl3);
-		stack3.add(stack3slotl4);
-		stack3.add(stack3slotl5);
+		for (int i = 50; i > 0 ; i--) {
+			stack1.add(new Disk (i * 3, stack1));
+		}
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1200, 629);
@@ -106,163 +49,92 @@ public class Main {
 		frame.setResizable(false);
 		
 		MyJPanel panel = new MyJPanel();
+		panel.setStack(stack1, stack2, stack3);
+		panel.setBounds(0, 0, 1200, 600);
+		frame.getContentPane().add(panel);
 		
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {	
-				if (abeyance.disk != null){
-					if (abeyance.x > area1.x1 && abeyance.x < area1.x2) {
-						for (int i = 0; i < 5; i++) {
-							if (i != 4) {
-								if (stack1.get(i).disk == null) {
-									if (stack1.get(i + 1).disk != null) {
-										if (stack1.get(i + 1).disk.value > abeyance.disk.value){
-											stack1.get(i).disk = abeyance.disk;
-										}
-									}
-								}
-							}
-							if (i == 4) {
-								if (stack1.get(i - 1).disk == null) {
-									stack1.get(i).disk = abeyance.disk;
-								}
-							}
-						}
-						abeyance.x = 0;
-						abeyance.y = 0;
-						abeyance.disk = null;
-						panel.repaint();
-					}
+
+				if (hoveringDisk == null){
+					return;
 				}
 				
-				if (abeyance.disk != null){
-				if (abeyance.x > area2.x1 && abeyance.x < area2.x2){
-					for (int i=0; i<5; i++) {
-						if (i != 4){
-							if (stack2.get(i).disk == null){
-								if(stack2.get(i+1).disk != null){
-									stack2.get(i).disk = abeyance.disk;
-								}
-							}
-						}  
-						if (i == 4) {
-							if (stack2.get(i-1).disk == null){
-								stack2.get(i).disk = abeyance.disk;
-							}
-						}
-					}
-					abeyance.x = 0;
-					abeyance.y = 0;
-					abeyance.disk = null;
-					panel.repaint(); 
-				}
+				ArrayList<Disk> stackToCheck;
+				
+				switch (e.getX() / 400) {
+					case 0 :
+						stackToCheck = stack1;
+						break;
+					case 1 :
+						stackToCheck = stack2;
+						break;
+					default :
+						stackToCheck = stack3;
+						break;
 				}
 				
-				if (abeyance.disk != null){
-				if (abeyance.x > area3.x1 && abeyance.x < area3.x2){
-					for (int i=0; i<5; i++) {
-						if (i != 4){
-							if (stack3.get(i).disk == null){
-								if(stack3.get(i+1).disk != null){
-									stack3.get(i).disk = abeyance.disk;
-								}
-							}
-						}  
-						if (i == 4) {
-							if (stack3.get(i-1).disk == null){
-								stack3.get(i).disk = abeyance.disk;
-							}
-						}
-					}
-					abeyance.x = 0;
-					abeyance.y = 0;
-					abeyance.disk = null;
-					panel.repaint(); 
-				}
-				}
+				if (!stackToCheck.isEmpty()) {
+					Disk highestDisk = stackToCheck.get(stackToCheck.size() - 1);
+					
+					if (hoveringDisk.width > highestDisk.width) {
+						System.out.println("da daaa -> geet net :(");
+						
+						hoveringDisk.lastPos.add(hoveringDisk);
+						panel.setMouseXY(e.getX(), e.getY());
+						panel.setHoveringDisk(null);
+						panel.repaint(); 
+						return;
+					}				
+				} 
+
+				stackToCheck.add(hoveringDisk);
+				hoveringDisk.setLastPos(stackToCheck);
+				hoveringDisk = null;
+				
+				panel.setMouseXY(e.getX(), e.getY());
+				panel.setHoveringDisk(null);
+				panel.repaint(); 
 			}
+		
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int x, y;
-				x = e.getX();
-				y = e.getY();
-				
-				for (int i=0; i<5; i++){
-					if (i == 4 && stack1.get(i-1).disk==null || i == 0 || stack1.get(i-1).disk == null){
-						if (stack1.get(i).disk != null) {
-							if ((stack1.get(i).x - stack1.get(i).disk.width < x)
-									&& (stack1.get(i).y < y)
-									&& (stack1.get(i).x
-											+ stack1.get(i).disk.width > x)
-									&& (stack1.get(i).y + 90 > y)) {
-								abeyance.disk = stack1.get(i).disk;
-								abeyance.x = x;
-								abeyance.y = y;
-								panel.setSlot(abeyance);
-								stack1.get(i).disk = null;
-								panel.repaint();
-							}
-						}
-					}
-				}
 
-				for (int i=0; i<5; i++){
-					if (i == 4 && stack2.get(i-1).disk==null || i == 0 || stack2.get(i-1).disk == null){
-						if (stack2.get(i).disk != null) {
-							if ((stack2.get(i).x - stack2.get(i).disk.width < x)
-									&& (stack2.get(i).y < y)
-									&& (stack2.get(i).x
-											+ stack2.get(i).disk.width > x)
-									&& (stack2.get(i).y + 90 > y)) {
-								abeyance.disk = stack2.get(i).disk;
-								abeyance.x = x;
-								abeyance.y = y;
-								panel.setSlot(abeyance);
-								stack2.get(i).disk = null;
-								panel.repaint();
-							}
-						}
-					}
+				System.out.println("Pressed");
+				
+				ArrayList<Disk> stackToCheck;
+				
+				switch (e.getX() / 400) {
+					case 0 :
+						stackToCheck = stack1;
+						break;
+					case 1 :
+						stackToCheck = stack2;
+						break;
+					default :
+						stackToCheck = stack3;
+						break;
 				}
 				
-				for (int i=0; i<5; i++){
-					if (i == 4 && stack3.get(i-1).disk==null || i == 0 || stack3.get(i-1).disk == null){
-						if (stack3.get(i).disk != null) {
-							if ((stack3.get(i).x - stack3.get(i).disk.width < x)
-									&& (stack3.get(i).y < y)
-									&& (stack3.get(i).x
-											+ stack3.get(i).disk.width > x)
-									&& (stack3.get(i).y + 90 > y)) {
-								abeyance.disk = stack3.get(i).disk;
-								abeyance.x = x;
-								abeyance.y = y;
-								panel.setSlot(abeyance);
-								stack3.get(i).disk = null;
-								panel.repaint();
-							}
-						}
-					}
-				}
+				if (!stackToCheck.isEmpty()) {
+					hoveringDisk = stackToCheck.get(stackToCheck.size() - 1);		
+					stackToCheck.remove(stackToCheck.size() - 1);
+					panel.setMouseXY(e.getX(), e.getY());
+					panel.setHoveringDisk(hoveringDisk);
+					panel.repaint();
+				} 
 			}
 		});
 		
-		panel.setStack(stack1, stack2, stack3);		
-		
 		panel.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
-			public void mouseDragged(MouseEvent arg0) {
-				if (abeyance.disk != null){
-					int x, y;
-					x = arg0.getX();
-					y = arg0.getY();
-					abeyance.x = x;
-					abeyance.y = y;
-					panel.setSlot(abeyance);
+			public void mouseDragged(MouseEvent e) {
+				if (hoveringDisk != null){
+					panel.setMouseXY(e.getX(), e.getY());
 					panel.repaint();
 				}
 			}
 		});
-		panel.setBounds(0, 0, 1200, 600);
-		frame.getContentPane().add(panel);
 	}
 }
